@@ -21,8 +21,6 @@ export default class NonClientCallControl extends FlexPlugin {
    * @param manager { import('@twilio/flex-ui').Manager }
    */
   init(flex, manager) {
-    console.debug('*** process.env:', process.env);
-    
     const shouldModifyMuteButton = () => {
       return !FlexState.isWorkerUsingWebRTC();
     }
