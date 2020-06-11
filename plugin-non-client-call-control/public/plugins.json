@@ -1,0 +1,13 @@
+[
+  {
+    "name": "plugin-non-client-call-control",
+    "version": "0.0.0",
+    "class": "NonClientCallControl",
+    "requires": [
+      {
+        "@twilio/flex-ui": "^1"
+      }
+    ],
+    "src": "http://localhost:3000/plugin-non-client-call-control.js"
+  }
+]
