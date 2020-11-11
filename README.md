@@ -64,3 +64,6 @@ If you've followed the steps to deploy the Serverless Functions above, then you'
 1. Answer the call on the device that phone number routes to
 1. Test the `Mute` button and verify the caller is not able to hear the worker
 1. Test the `Hangup` buttons and verify both the call to the worker's device and the original inbound call disconnects
+
+## Disclaimer
+This software is to be considered "sample code", a Type B Deliverable, and is delivered "as-is" to the user. Twilio bears no responsibility to support the use or implementation of this software.
