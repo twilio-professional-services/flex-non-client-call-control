@@ -26,7 +26,8 @@ https://www.twilio.com/docs/labs/serverless-toolkit/getting-started#install-the-
 1. Run `npm i` to install all node.js package dependencies
 1. Rename `.env.sample` to `.env` and update the environment variables with values for the Twilio Flex account you'll be deploying these functions to
     1. `ACCOUNT_SID` and `AUTH_TOKEN` are only needed for running the Function locally in your development environment
-    1. For `WORKSPACE_SID`, navigate to TaskRouter Workspaces in your Twilio Console to get the SID of your Flex workspace (https://www.twilio.com/console/taskrouter/workspaces)
+        * Note: If you populate these values, they will be used for determining which Twilio project to deploy to when you run `twilio serverless:deploy`, instead of the active profile shown by running `twilio profiles:list`.
+        * If you want to deploy to the Twilio project that's active in your profiles list, then leave these environment variables blank.
 1. From your terminal again, run `twilio serverless:deploy` to deploy the functions to your Twilio Flex project
     1. Feel free to leverage that commands options such as `--environment` if you'd like to modify the deployment properties
 1. Once the deployment is completed, copy the `Domain` in the Deployment Details shown in the terminal. This will be used in the Flex Plugin portion of these instructions.
@@ -37,17 +38,28 @@ https://www.twilio.com/docs/labs/serverless-toolkit/getting-started#install-the-
 
 If you've followed the steps to deploy the Serverless Functions above, then you'll have everything you need to deploy the Flex plugin. If you haven't, please go through deploying the Functions first as that's a dependency for using the Flex plugin.
 
+If you don't already have the Twilio CLI Flex Plugin installed, follow this guide to install the plugin:
+
+https://www.twilio.com/docs/flex/developer/plugins/cli/install
+
 #### Instructions
 
 1. Navigate to the `plugin-non-client-call-control` folder in this repository
 1. Rename `.env.sample` to `.env`
 1. Edit `.env` and set the value of `REACT_APP_SERVERLESS_BASE_DOMAIN` to the Serverless Domain Name you copied from the Serverless Function deployment steps above
 1. Navigate to the `public` folder of the plugin
-1. Rename the `appConfig.sample.js` file to `appConfig.js`
-1. Edit `public/appConfig.js` and replace the `accountSid` variable value with your Twilio Flex account's Account SID
-1. From a terminal, navigate to the `plugin-non-client-call-control` folder
-1. Run `npm i` to install all node.js package dependencies
-1. When finished, run `npm run deploy` to deploy the plugin to your Flex account
+1. Rename the `appConfig.example.js` file to `appConfig.js`
+1. From a terminal, navigate to the `plugin-non-client-call-control` folder and run `npm install` to install all node.js package dependencies (if you use npm, otherwise run the install command for your package manager)
+    ```bash
+    cd plugin-non-client-call-control
+
+    npm install
+    ```
+1. When finished, run the following command to deploy the plugin to your Flex account
+    ```bash
+    twilio flex:plugins:deploy --major --changelog "Notes for this version" --description "Functionality of the plugin"
+    ```
+1. After your deployment runs you will receive instructions for releasing your plugin from the terminal prompt. You can use this or skip this step and release your plugin from the Flex plugin dashboard here https://flex.twilio.com/admin/plugins.
 
 ## Testing
 

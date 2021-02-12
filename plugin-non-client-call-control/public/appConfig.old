@@ -1,0 +1,14 @@
+// your account sid
+var accountSid = 'AC5b097c7cc511678abc190a2120264bef';
+
+
+var appConfig = {
+  pluginService: {
+    enabled: true,
+    url: '/plugins',
+  },
+  sso: {
+    accountSid: accountSid
+  },
+  logLevel: 'debug',
+};
