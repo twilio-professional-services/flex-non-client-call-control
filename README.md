@@ -65,7 +65,7 @@ https://www.twilio.com/docs/flex/developer/plugins/cli/install
 
 ### TaskRouter Worker Setting
 
-1. In the [Twilio Console](https://twilio.com/console), navigate to `TaskRouter -> {Your Flex Workspace} -> Workers` and select the worker you will be testing with
+1. In the [Twilio Console](twilio.com/console), navigate to `TaskRouter -> {Your Flex Workspace} -> Workers` and select the worker you will be testing with
 1. Update the Worker attribute `contact_uri` with an E.164 formatted number, like `+15551234567`
 
 ### Flex UI
