@@ -17,15 +17,16 @@ class FlexState {
     const { attributes } = this.workerClient;
     const { contact_uri } = attributes;
     return contact_uri.startsWith('client:');
-  }
+  };
 
   static getLocalParticipantForTask = (task) => {
-    const { conference } = task;
-    const { participants } = conference;
-    const workerParticipant = participants.find(p => p.workerSid === this.workerSid);
+    const participants = task?.conference?.participants || [];
+    const workerParticipant = participants.find(
+      (p) => p.workerSid === this.workerSid
+    );
 
-    return workerParticipant
-  }
+    return workerParticipant;
+  };
 }
 
 export default FlexState;

@@ -5,6 +5,8 @@ import './listeners/CustomListeners';
 import './states/FlexState';
 import FlexState from './states/FlexState';
 import CustomMuteButton from './components/CustomMuteButton';
+import CustomEndCallButton from './components/CustomEndCallButton';
+import CustomEndCallTaskButton from './components/CustomEndCallTaskButton';
 
 const PLUGIN_NAME = 'NonClientCallControl';
 
@@ -21,20 +23,34 @@ export default class NonClientCallControl extends FlexPlugin {
    * @param manager { import('@twilio/flex-ui').Manager }
    */
   init(flex, manager) {
-    const shouldModifyMuteButton = () => {
-      return !FlexState.isWorkerUsingWebRTC();
-    }
+    const shouldModifyCallCanvas = (props) => {
+      console.debug(FlexState.getLocalParticipantForTask(props.task)?.status);
+      return (
+        !FlexState.isWorkerUsingWebRTC() &&
+        FlexState.getLocalParticipantForTask(props.task)
+      );
+    };
 
-    flex.CallCanvasActions.Content.remove('toggleMute',
-      { if: shouldModifyMuteButton }
-    );
+    flex.CallCanvasActions.Content.remove('toggleMute', {
+      if: shouldModifyCallCanvas,
+    });
 
     flex.CallCanvasActions.Content.add(
       <CustomMuteButton key="custom-mute-button" />,
       {
         sortOrder: -1,
-        if: shouldModifyMuteButton
+        if: shouldModifyCallCanvas,
       }
+    );
+
+    flex.ConnectingOutboundCallCanvas.Content.add(
+      <CustomEndCallButton key="custom-endcall-button" />,
+      { if: shouldModifyCallCanvas }
+    );
+
+    flex.TaskListButtons.Content.add(
+      <CustomEndCallTaskButton key="custom-endcall-task-button" />,
+      { if: shouldModifyCallCanvas }
     );
   }
 }
