@@ -13,7 +13,7 @@ import FlexState from '../states/FlexState';
 
 class CustomEndCallButton extends React.PureComponent {
   handleClick = async () => {
-    console.debug('*** Custom End Call task button clicked');
+    console.debug('*** Custom End Call button clicked');
     const { task } = this.props;
     console.debug('PROPS OBJ: ', this.props);
 

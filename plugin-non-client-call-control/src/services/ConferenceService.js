@@ -9,10 +9,10 @@ class ConferenceService {
     };
     const fetchResponse = await fetch(fetchUrl, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
       },
       method: 'POST',
-      body: JSON.stringify(fetchBody),
+      body: new URLSearchParams(fetchBody),
     });
     let response;
     try {

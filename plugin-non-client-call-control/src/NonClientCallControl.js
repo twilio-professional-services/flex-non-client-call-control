@@ -24,7 +24,6 @@ export default class NonClientCallControl extends FlexPlugin {
    */
   init(flex, manager) {
     const shouldModifyCallCanvas = (props) => {
-      console.debug(FlexState.getLocalParticipantForTask(props.task)?.status);
       return (
         !FlexState.isWorkerUsingWebRTC() &&
         FlexState.getLocalParticipantForTask(props.task)
@@ -49,7 +48,7 @@ export default class NonClientCallControl extends FlexPlugin {
     );
 
     flex.TaskListButtons.Content.add(
-      <CustomEndCallTaskButton key="custom-endcall-task-button" />,
+      <CustomEndCallButton key="custom-endcall-task-button" />,
       { if: shouldModifyCallCanvas }
     );
   }
