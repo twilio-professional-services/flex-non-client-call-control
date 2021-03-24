@@ -1,7 +1,12 @@
 import React from 'react';
-import { IconButton, TaskHelper, withTheme } from '@twilio/flex-ui';
+import {
+  IconButton,
+  TaskHelper,
+  withTheme
+} from '@twilio/flex-ui';
 import ConferenceService from '../services/ConferenceService';
 import FlexState from '../states/FlexState';
+
 
 class CustomMuteButton extends React.PureComponent {
   handleClick = async () => {
@@ -12,19 +17,13 @@ class CustomMuteButton extends React.PureComponent {
 
     const workerParticipant = FlexState.getLocalParticipantForTask(task);
     const { callSid: participantCallSid } = workerParticipant;
-
+    
     if (workerParticipant.muted) {
-      await ConferenceService.unMuteParticipant(
-        conferenceSid,
-        participantCallSid
-      );
+      await ConferenceService.unMuteParticipant(conferenceSid, participantCallSid);
     } else {
-      await ConferenceService.muteParticipant(
-        conferenceSid,
-        participantCallSid
-      );
+      await ConferenceService.muteParticipant(conferenceSid, participantCallSid);
     }
-  };
+  }
 
   render() {
     const { task, theme } = this.props;
@@ -42,7 +41,7 @@ class CustomMuteButton extends React.PureComponent {
           title="Mute Call"
         />
       </React.Fragment>
-    );
+    )
   }
 }
 
