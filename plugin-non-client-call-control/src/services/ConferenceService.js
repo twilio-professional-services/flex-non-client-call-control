@@ -7,13 +7,16 @@ class ConferenceService {
       conferenceSid,
       participantCallSid,
     };
+    console.debug('FETCH URL', fetchUrl);
+    console.debug('FETCH BODY: ', fetchBody);
     const fetchResponse = await fetch(fetchUrl, {
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+        'Content-Type': 'application/json',
       },
       method: 'POST',
-      body: new URLSearchParams(fetchBody),
+      body: JSON.stringify(fetchBody),
     });
+    console.debug('🐼🐼🐼🐼', fetchResponse);
     let response;
     try {
       response = fetchResponse && (await fetchResponse.json());

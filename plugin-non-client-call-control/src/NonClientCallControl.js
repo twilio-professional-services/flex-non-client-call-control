@@ -6,7 +6,6 @@ import './states/FlexState';
 import FlexState from './states/FlexState';
 import CustomMuteButton from './components/CustomMuteButton';
 import CustomEndCallButton from './components/CustomEndCallButton';
-import CustomEndCallTaskButton from './components/CustomEndCallTaskButton';
 
 const PLUGIN_NAME = 'NonClientCallControl';
 
