@@ -1,5 +1,19 @@
 # Flex Non-Twilio Client Worker Endpoint Call Control
 
+## Disclaimer
+
+> This software is to be considered "sample code", a Type B Deliverable, and is delivered "as-is" to the user. Twilio bears no responsibility to support the use or implementation of this software.
+>
+> #### Plugin Code Developed and Tested On the Following Versions
+>
+> > _WARNING: Code may not run as expected on lower versions._
+>
+> - _Twilio Flex UI: 1.25.2_
+> - _Twilio CLI: 2.20.0_
+> - _Twilio CLI Flex Plugin: 4.5.0-beta.0_
+> - _Node: 12.21.0_
+> - _nvm: 7.6.3_
+
 ## Overview
 
 At the time of this repository's creation, when a TaskRouter worker's "contact_uri" attribute is anything other than a Twilio Client address, the native Flex UI buttons to end the call or put the worker on mute would not work. Clicking Hang Up would move the task to wrapping but the call itself would stay active. The Mute button was disabled. Those functions had to be handled at the worker's device itself and not through the Flex UI.
@@ -25,11 +39,11 @@ https://www.twilio.com/docs/labs/serverless-toolkit/getting-started#install-the-
 1. From a terminal, navigate to the `serverless-non-client-call-control` folder in this repository
 1. Run `npm i` to install all node.js package dependencies
 1. Rename `.env.sample` to `.env` and update the environment variables with values for the Twilio Flex account you'll be deploying these functions to
-    1. `ACCOUNT_SID` and `AUTH_TOKEN` are only needed for running the Function locally in your development environment
-        * Note: If you populate these values, they will be used for determining which Twilio project to deploy to when you run `twilio serverless:deploy`, instead of the active profile shown by running `twilio profiles:list`.
-        * If you want to deploy to the Twilio project that's active in your profiles list, then leave these environment variables blank.
+   1. `ACCOUNT_SID` and `AUTH_TOKEN` are only needed for running the Function locally in your development environment
+      - Note: If you populate these values, they will be used for determining which Twilio project to deploy to when you run `twilio serverless:deploy`, instead of the active profile shown by running `twilio profiles:list`.
+      - If you want to deploy to the Twilio project that's active in your profiles list, then leave these environment variables blank.
 1. From your terminal again, run `twilio serverless:deploy` to deploy the functions to your Twilio Flex project
-    1. Feel free to leverage that commands options such as `--environment` if you'd like to modify the deployment properties
+   1. Feel free to leverage that commands options such as `--environment` if you'd like to modify the deployment properties
 1. Once the deployment is completed, copy the `Domain` in the Deployment Details shown in the terminal. This will be used in the Flex Plugin portion of these instructions.
 
 ### Flex Plugin
@@ -50,15 +64,17 @@ https://www.twilio.com/docs/flex/developer/plugins/cli/install
 1. Navigate to the `public` folder of the plugin
 1. Rename the `appConfig.example.js` file to `appConfig.js`
 1. From a terminal, navigate to the `plugin-non-client-call-control` folder and run `npm install` to install all node.js package dependencies (if you use npm, otherwise run the install command for your package manager)
-    ```bash
-    cd plugin-non-client-call-control
 
-    npm install
-    ```
+   ```bash
+   cd plugin-non-client-call-control
+
+   npm install
+   ```
+
 1. When finished, run the following command to deploy the plugin to your Flex account
-    ```bash
-    twilio flex:plugins:deploy --major --changelog "Notes for this version" --description "Functionality of the plugin"
-    ```
+   ```bash
+   twilio flex:plugins:deploy --major --changelog "Notes for this version" --description "Functionality of the plugin"
+   ```
 1. After your deployment runs you will receive instructions for releasing your plugin from the terminal prompt. You can use this or skip this step and release your plugin from the Flex plugin dashboard here https://flex.twilio.com/admin/plugins.
 
 ## Testing
@@ -78,4 +94,5 @@ https://www.twilio.com/docs/flex/developer/plugins/cli/install
 1. Test the `Hangup` buttons and verify both the call to the worker's device and the original inbound call disconnects
 
 ## Disclaimer
+
 This software is to be considered "sample code", a Type B Deliverable, and is delivered "as-is" to the user. Twilio bears no responsibility to support the use or implementation of this software.
