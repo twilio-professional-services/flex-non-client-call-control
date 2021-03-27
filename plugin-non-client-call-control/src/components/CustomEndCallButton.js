@@ -23,12 +23,13 @@ class CustomEndCallButton extends React.PureComponent {
     const workerParticipant = FlexState.getLocalParticipantForTask(task);
     const { callSid: participantCallSid } = workerParticipant;
     if (this.state.disabled === false) {
-      this.setState({ disabled: true });
       const removeResults = await ConferenceService.removeParticipant(
         task?.conference?.conferenceSid,
         participantCallSid
       );
-      console.debug('REMOVE RESULTS: ', removeResults);
+      if (removeResults === true) {
+        this.setState({ disabled: true });
+      }
     }
   };
   render() {

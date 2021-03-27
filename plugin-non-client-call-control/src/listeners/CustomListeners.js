@@ -10,7 +10,7 @@ const hangupNonWebRtcCall = async (task) => {
   );
 
   const { callSid: participantCallSid } = workerParticipant;
-
+  console.debug('ACTIVATE HANGUP NON WEB RTC CALL');
   await ConferenceService.removeParticipant(conferenceSid, participantCallSid);
 };
 

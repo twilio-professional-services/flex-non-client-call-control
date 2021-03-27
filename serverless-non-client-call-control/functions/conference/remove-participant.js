@@ -1,17 +1,23 @@
-exports.handler = async (context, event, callback) => {
-  let response = new Twilio.Response();
-  let headers = {
-    'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type',
-    'Content-type': 'application/json',
-  };
-  response.setHeaders(headers);
+exports.handler = async function (context, event, callback) {
   const client = context.getTwilioClient();
+  const response = new Twilio.Response();
+  const responseBody = {
+    success: true,
+    payload: {
+      errors: [],
+    },
+  };
 
   const { conferenceSid, participantCallSid } = event;
-
   try {
+    if (!event.participantCallSid) {
+      // This handles the case where a specific parameter was not sent
+      throw {
+        status: 400,
+        code: 60200,
+        message: 'Request must include a participant call SID',
+      };
+    }
     console.log(
       `Removing participant ${participantCallSid} from conference ${conferenceSid}`
     );
@@ -20,15 +26,27 @@ exports.handler = async (context, event, callback) => {
       .participants(participantCallSid)
       .remove();
     console.log('Participant removed');
+  } catch (e) {
+    console.error(e.message || e);
 
-    const responseBody = {
-      success: true,
-    };
-    response.setBody(responseBody);
-    response.setStatusCode(200);
+    response.setStatusCode(e.status || 500);
 
-    callback(null, response);
-  } catch (error) {
-    callback(error, null);
+    responseBody.success = false;
+    responseBody.payload.errors = responseBody.payload.errors || [];
+    responseBody.payload.errors.push({
+      code: e.code || 500,
+      message: e.message,
+    });
   }
+
+  response.setBody(responseBody);
+  response.appendHeader('Content-Type', 'application/json');
+  response.appendHeader('Access-Control-Allow-Origin', '*');
+  response.appendHeader('Access-Control-Allow-Methods', 'OPTIONS POST GET');
+  response.appendHeader(
+    'Access-Control-Allow-Headers',
+    'Content-Type, X-Twilio-Signature'
+  );
+
+  return callback(null, response);
 };

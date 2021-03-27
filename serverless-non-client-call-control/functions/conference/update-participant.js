@@ -1,40 +1,56 @@
-const Twilio = require('twilio');
-
-exports.handler = async function(context, event, callback) {
-  let response = new Twilio.Response();
-  let headers = {
-    "Access-Control-Allow-Origin": "*",
-    "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,OPTIONS",
-    "Access-Control-Allow-Headers": "Content-Type",
-    "Content-Type": "application/json"
-  };
-  response.setHeaders(headers);
-
-  const {
-    ACCOUNT_SID,
-    AUTH_TOKEN
-  } = context;
-
-  const client = Twilio(ACCOUNT_SID, AUTH_TOKEN);
-
-  const {
-    conferenceSid,
-    participantCallSid,
-    muted
-  } = event;
-
-  console.log(`Updating participant ${participantCallSid} in conference ${conferenceSid}`);
-  await client.conferences(conferenceSid)
-    .participants(participantCallSid)
-    .update({
-      muted
-    });
-  console.log('Participant updated');
-
+exports.handler = async function (context, event, callback) {
+  const client = context.getTwilioClient();
+  const response = new Twilio.Response();
   const responseBody = {
-    success: true
+    success: true,
+    payload: {
+      errors: [],
+    },
   };
-  response.setBody(responseBody);
 
-  callback(null, response);
+  const { conferenceSid, participantCallSid, muted } = event;
+
+  try {
+    if (!event.participantCallSid) {
+      // This handles the case where a specific parameter was not sent
+      throw {
+        status: 400,
+        code: 60200,
+        message: 'Request must include a participant call SID',
+      };
+    }
+
+    console.log(
+      `Updating participant ${participantCallSid} in conference ${conferenceSid}`
+    );
+    await client
+      .conferences(conferenceSid)
+      .participants(participantCallSid)
+      .update({
+        muted,
+      });
+    console.log('Participant updated');
+  } catch (e) {
+    console.error(e.message || e);
+
+    response.setStatusCode(e.status || 500);
+
+    responseBody.success = false;
+    responseBody.payload.errors = responseBody.payload.errors || [];
+    responseBody.payload.errors.push({
+      code: e.code || 500,
+      message: e.message,
+    });
+  }
+
+  response.setBody(responseBody);
+  response.appendHeader('Content-Type', 'application/json');
+  response.appendHeader('Access-Control-Allow-Origin', '*');
+  response.appendHeader('Access-Control-Allow-Methods', 'OPTIONS POST GET');
+  response.appendHeader(
+    'Access-Control-Allow-Headers',
+    'Content-Type, X-Twilio-Signature'
+  );
+
+  return callback(null, response);
 };
