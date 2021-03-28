@@ -12,10 +12,8 @@ class ConferenceService {
       method: 'delete',
     };
     const removeRequest = await axios.post(url, data, options);
-
     let response = JSON.parse(removeRequest.request.response);
     response = response.success;
-
     return response;
   };
 
@@ -30,22 +28,10 @@ class ConferenceService {
       participantCallSid,
       ...updateProperties,
     };
-    const fetchResponse = await fetch(fetchUrl, {
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      method: 'POST',
-      body: JSON.stringify(fetchBody),
-    });
-    let response;
-    try {
-      response = fetchResponse && (await fetchResponse.json());
-    } catch (error) {
-      console.error(
-        'Unable to parse update participant response to JSON.',
-        error
-      );
-    }
+    const updateRequest = await axios.post(url, data);
+    let response = JSON.parse(updateRequest.request.response);
+    response = response.success;
+
     console.debug('*** Conference participant updated:', response);
   };
 
