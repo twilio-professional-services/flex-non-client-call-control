@@ -1,4 +1,4 @@
-import * as FlexPlugin from 'flex-plugin';
-import NonClientCallControl from './NonClientCallControl';
+import * as FlexPlugin from "@twilio/flex-plugin";
+import NonClientCallControl from "./NonClientCallControl";
 
 FlexPlugin.loadPlugin(NonClientCallControl);
