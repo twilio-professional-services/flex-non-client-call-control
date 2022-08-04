@@ -1,4 +1,4 @@
-import * as Flex from '@twilio/flex-ui';
+import * as Flex from "@twilio/flex-ui";
 
 class FlexState {
   static get manager() {
@@ -16,15 +16,21 @@ class FlexState {
   static isWorkerUsingWebRTC = () => {
     const { attributes } = this.workerClient;
     const { contact_uri } = attributes;
-    return contact_uri.startsWith('client:');
-  }
+    return contact_uri.startsWith("client:");
+  };
 
   static getLocalParticipantForTask = (task) => {
     const { conference } = task;
     const { participants } = conference;
-    const workerParticipant = participants.find(p => p.workerSid === this.workerSid);
+    const workerParticipant = participants.find(
+      (p) => p.workerSid === this.workerSid
+    );
 
-    return workerParticipant
+    return workerParticipant;
+  };
+
+  static getMyWorkerSid() {
+    return this.manager.store.getState().flex.worker.worker.sid;
   }
 }
 

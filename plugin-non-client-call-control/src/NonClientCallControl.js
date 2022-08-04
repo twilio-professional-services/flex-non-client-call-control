@@ -1,12 +1,12 @@
-import React from 'react';
-import { VERSION } from '@twilio/flex-ui';
-import { FlexPlugin } from 'flex-plugin';
-import './listeners/CustomListeners';
-import './states/FlexState';
-import FlexState from './states/FlexState';
-import CustomMuteButton from './components/CustomMuteButton';
+import React from "react";
+import { VERSION } from "@twilio/flex-ui";
+import { FlexPlugin } from "@twilio/flex-plugin";
+import "./listeners/CustomListeners";
+import "./states/FlexState";
+import FlexState from "./states/FlexState";
+import CustomMuteButton from "./components/CustomMuteButton";
 
-const PLUGIN_NAME = 'NonClientCallControl';
+const PLUGIN_NAME = "NonClientCallControl";
 
 export default class NonClientCallControl extends FlexPlugin {
   constructor() {
@@ -23,17 +23,17 @@ export default class NonClientCallControl extends FlexPlugin {
   init(flex, manager) {
     const shouldModifyMuteButton = () => {
       return !FlexState.isWorkerUsingWebRTC();
-    }
+    };
 
-    flex.CallCanvasActions.Content.remove('toggleMute',
-      { if: shouldModifyMuteButton }
-    );
+    flex.CallCanvasActions.Content.remove("toggleMute", {
+      if: shouldModifyMuteButton,
+    });
 
     flex.CallCanvasActions.Content.add(
       <CustomMuteButton key="custom-mute-button" />,
       {
         sortOrder: -1,
-        if: shouldModifyMuteButton
+        if: shouldModifyMuteButton,
       }
     );
   }
